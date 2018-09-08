@@ -28,21 +28,26 @@ def threaded(conn):
 
     conn.close() # close the connection
 
-#create an INET, STREAMing socket
-serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-#bind the socket to host and custom port
-serversocket.bind((PROCESS_HOSTNAME, PROCESS_INIT_PORT))
-#become a server socket
-serversocket.listen(5)
+def Main():
 
-print "Waiting for client to connect..."
+    #create an INET, STREAMing socket
+    serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    #bind the socket to host and custom port
+    serversocket.bind((PROCESS_HOSTNAME, PROCESS_INIT_PORT))
+    #become a server socket
+    serversocket.listen(5)
 
-while (1):
-    conn, addr = serversocket.accept()
-    print 'Connected with:' + addr[0] + ':' + str(addr[1])
+    print "Waiting for client to connect..."
 
-    # Start a new thread and return its identifier 
-    start_new_thread(threaded, (conn,)) 
+    while (1):
+        conn, addr = serversocket.accept()
+        print 'Connected with:' + addr[0] + ':' + str(addr[1])
 
-# no need to close socket, otherwise will need to start up server again...
-# serversocket.close()
+        # Start a new thread and return its identifier 
+        start_new_thread(threaded, (conn,)) 
+
+    # no need to close socket, otherwise will need to start up server again...
+    # serversocket.close()
+
+if __name__ == '__main__': 
+    Main()
