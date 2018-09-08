@@ -5,8 +5,11 @@ import subprocess # to execute system calls
 from thread import *
 import threading
 
-PROCESS_INIT_PORT = 45000
-PROCESS_HOSTNAME = socket.gethostbyname(socket.gethostname())
+def get_process_hostname():
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.connect(("8.8.8.8", 80))
+    return s.getsockname()[0]
+    s.close()
 
 # thread fuction 
 def threaded(conn): 
@@ -40,6 +43,7 @@ def Main():
     #create an INET, STREAMing socket
     serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     #bind the socket to host and custom port
+    PROCESS_INIT_PORT, PROCESS_HOSTNAME = 45000, get_process_hostname()
     serversocket.bind((PROCESS_HOSTNAME, PROCESS_INIT_PORT))
     #become a server socket
     serversocket.listen(5)
