@@ -9,23 +9,26 @@ PROCESS_INIT_PORT = 45000
 PROCESS_HOSTNAME = socket.gethostbyname(socket.gethostname())
 
 # thread fuction 
-def threaded(c): 
-    while True: 
-  
-        # data received from client 
-        data = c.recv(1024) 
-        if not data: 
-            print('No data') 
-            break
-  
-        # reverse the given string from client 
-        data = data[:-1] 
-  
-        # send back reversed string to client 
-        c.send(data) 
-  
-    # connection closed 
-    c.close()
+def threaded(conn): 
+     
+    # data received from client 
+    command = conn.recv(1024) 
+    if not command: 
+        print 'No command'
+        conn.close()
+        return
+
+    # conn.send('connected to server! Type command, then press enter: ')
+    command = command.strip()
+    print 'received command: ' + command
+    # retData = call('ls')
+    retData = subprocess.check_output(command, shell=True)
+    retData = retData[:-1] # to remove the final \n
+    # '1:import socket\n2:import os\n# not needed 3:import subprocess\n'
+    print "retData: " + retData
+    conn.sendall(retData) # send all will break down text in small packets and then send all the packets
+
+    conn.close() # close the connection
 
 #create an INET, STREAMing socket
 serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -57,17 +60,12 @@ print "Waiting for client to connect..."
 while (1):
     conn, addr = serversocket.accept()
     print 'Connected with:' + addr[0] + ':' + str(addr[1])
-    # conn.send('connected to server! Type command, then press enter: ')
-    command = conn.recv(1024)
-    command = command.strip()
-    print 'received command: ' + command
-    # retData = call('ls')
-    retData = subprocess.check_output(command, shell=True)
-    retData = retData[:-1] # to remove the final \n
-    # '1:import socket\n2:import os\n# not needed 3:import subprocess\n'
-    print "retData: " + retData
-    conn.sendall(retData) # send all will break down text in small packets and then send all the packets
-    conn.close() # close the connection
+
+    # Start a new thread and return its identifier 
+    start_new_thread(threaded, (conn,)) 
+
+# serversocket.close() # no need to close socket, otherwise will need to start up server again...
+
 
 
 # class mysocket:
