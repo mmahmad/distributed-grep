@@ -66,8 +66,10 @@ class Client(object):
 				print 'Filename:%s, Line %s ' % (file_name, line)
 
 def main():
-	obj = Client('grep -n "import"')
-	obj.query()
+	while True:
+		command = raw_input('Enter grep command...\n')
+		obj = Client(command)
+		obj.query()
 
 if __name__ == '__main__':
 	main()
