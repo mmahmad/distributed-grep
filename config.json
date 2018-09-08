@@ -1,0 +1,16 @@
+{
+	"servers": 
+	[
+		{
+			"host": "test",
+			"ip": "test",
+			"logfile_name": "test"
+		},
+		{
+			"host": "test",
+			"ip": "test",
+			"logfile_name": "test"
+		}
+	],
+	"port": "1234"
+}
