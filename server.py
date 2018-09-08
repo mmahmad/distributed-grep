@@ -20,7 +20,14 @@ def threaded(conn):
 
     command = command.strip() # to remove empty whitespaces, added due to large (1024 bytes) buffer
     print 'received command: ' + command
-    retData = subprocess.check_output(command, shell=True)
+    try:
+        retData = subprocess.check_output(command, shell=True)
+    except:
+        # In case no match found
+        print "CalledProcessError: No match found"
+        conn.close()
+        return
+
     retData = retData[:-1] # to remove the final \n
     # '1:import socket\n2:import os\n# not needed 3:import subprocess\n'
     print "retData: " + retData
