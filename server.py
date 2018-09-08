@@ -15,14 +15,11 @@ def threaded(c):
         # data received from client 
         data = c.recv(1024) 
         if not data: 
-            print('Bye') 
-              
-            # lock released on exit 
-            print_lock.release() 
+            print('No data') 
             break
   
         # reverse the given string from client 
-        data = data[::-1] 
+        data = data[:-1] 
   
         # send back reversed string to client 
         c.send(data) 
