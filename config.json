@@ -2,15 +2,17 @@
 	"servers": 
 	[
 		{
+			"id": "1",
 			"host": "test",
-			"ip": "test",
-			"logfile_name": "test"
+			"ip": "127.0.1.1",
+			"logfile_name": "client.py"
 		},
 		{
+			"id": "2", 
 			"host": "test",
-			"ip": "test",
-			"logfile_name": "test"
+			"ip": "10.193.204.192",
+			"logfile_name": "server.py"
 		}
 	],
-	"port": "1234"
+	"port": "45000"
 }
