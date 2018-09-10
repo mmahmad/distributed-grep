@@ -17,9 +17,10 @@ class QueryThread(threading.Thread):
 	def run(self):
 		try:
 			sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+			sock.settimeout(2.0)   
 			sock.connect((self.host, int(self.port)))
 		except socket.error as e: #If connection to remote machine fails
-			print 'Could not connect'
+			print 'Could not connect to ' + str(self.host)
 			return
 
 		try:
@@ -30,7 +31,8 @@ class QueryThread(threading.Thread):
 				if part:
 					self.result += part
 				else:
-					self.queue.put({self.logfile_name: self.result})
+					if self.result:
+						self.queue.put({self.logfile_name: self.result})
 					break
 
 		except socket.error as e:
@@ -38,8 +40,9 @@ class QueryThread(threading.Thread):
 
 class Client(object):
 
-	def __init__(self, command):
+	def __init__(self, command, is_test):
 		self.command = command
+		self.is_test = is_test
 		with open('config.json') as config:
 			config_data = json.load(config)
 		self.servers = config_data['servers']
@@ -48,14 +51,20 @@ class Client(object):
 
 	def query(self):
 		thread_list = []
+		output = ''
 
 		for server in self.servers:
 			host, ip = server['host'], server['ip']
-			thread = QueryThread(self.command, ip, self.port, server['logfile_name'], self.queue)
+
+			if self.is_test:
+				thread = QueryThread(self.command, ip, self.port, server['test_logfile_name'], self.queue)
+			else:
+				thread = QueryThread(self.command, ip, self.port, server['logfile_name'], self.queue)
+				
 			thread.start()
 			thread_list.append(thread)
 
-		for thread in thread_list:
+		for thread in thread_list:	
 			thread.join()
 
 		while not self.queue.empty():
@@ -63,12 +72,18 @@ class Client(object):
 			file_name, result = item.keys()[0], item.values()[0]
 
 			for line in result.split('\n'):
-				print 'Filename:%s, Line %s ' % (file_name, line)
+				line_output = '%s:%s' % (file_name, line)
+				output += (line_output + '\n')
+				
+				if not self.is_test:
+					print line_output
+
+		return output
 
 def main():
 	while True:
 		command = raw_input('Enter grep command...\n')
-		obj = Client(command)
+		obj = Client(command, is_test = False)
 		obj.query()
 
 if __name__ == '__main__':
