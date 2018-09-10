@@ -1,13 +1,15 @@
 import unittest
 from client import Client
 
+NUM_MACHINES = 1
+
 class TestLogQuerier(unittest.TestCase):
 
 	def test_rare_patterns(self):
 		result = Client('grep -n "^Machine number"', is_test = True).query()
 		num_lines = result.count('\n')
 
-		self.assertEqual(num_lines, 1)
+		self.assertEqual(num_lines, NUM_MACHINES)
 		for line in result[:-1].split('\n'):
 			self.assertIn('Machine number', line)
 
@@ -15,7 +17,7 @@ class TestLogQuerier(unittest.TestCase):
 		result = Client('grep -n "^Somewhat frequent"', is_test = True).query()
 		num_lines = result.count('\n')
 
-		self.assertEqual(num_lines, 10)
+		self.assertEqual(num_lines, 10 * NUM_MACHINES)
 		for line in result[:-1].split('\n'):
 			self.assertIn('Somewhat frequent', line)
 
@@ -23,7 +25,7 @@ class TestLogQuerier(unittest.TestCase):
 		result = Client('grep -n "^Very frequent"', is_test = True).query()
 		num_lines = result.count('\n')
 
-		self.assertEqual(num_lines, 50)
+		self.assertEqual(num_lines, 50 * NUM_MACHINES)
 		for line in result[:-1].split('\n'):
 			self.assertIn('Very frequent', line)
 
@@ -44,10 +46,26 @@ class TestLogQuerier(unittest.TestCase):
 		self.assertIn('1-11111', result)
 
 	def test_occur_in_some_logs(self):
-		pass
+		result = Client('grep -n "^Only in odd"', is_test = True).query()
+		num_lines = result.count('\n')
+
+		if NUM_MACHINES % 2 == 0:
+			self.assertEqual(num_lines, 10 * (NUM_MACHINES/2))
+		else:
+			self.assertEqual(num_lines, 10 * (NUM_MACHINES/2 + 1))
+
+		for line in result[:-1].split('\n'):
+			self.assertNotIn('machine.2', line)
+			self.assertNotIn('machine.4', line)
 
 	def test_occur_in_all_logs(self):
-		pass
+		result = Client('grep -n "^Machine number"', is_test = True).query()
+		num_lines = result.count('\n')
+
+		self.assertEqual(num_lines, NUM_MACHINES)
+
+		for i in range(1, NUM_MACHINES):
+			self.assertIn('machine.{}'.format(i), result)
 
 if __name__ == '__main__':
 	suite = unittest.TestLoader().loadTestsFromTestCase(TestLogQuerier)
