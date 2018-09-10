@@ -6,7 +6,7 @@ def generate_logs():
 	with open('config.json') as config:
 		config_data = json.load(config)
 
-	current_ip = '192.168.0.195'#get_process_hostname()
+	current_ip = get_process_hostname()
 	server_id = [server['id'] for server in config_data['servers'] if server['ip'] == current_ip][0]
 
 	patterns = []

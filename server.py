@@ -32,13 +32,11 @@ def threaded(conn):
         return
 
     retData = retData[:-1] # to remove the final \n
-    # '1:import socket\n2:import os\n# not needed 3:import subprocess\n'
-    print "retData: " + retData
     conn.sendall(retData) # send all will break down text in small packets and then send all the packets
 
     conn.close() # close the connection
 
-def Main():
+def main():
 
     #create an INET, STREAMing socket
     serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -61,4 +59,4 @@ def Main():
     # serversocket.close()
 
 if __name__ == '__main__': 
-    Main()
+    main()
