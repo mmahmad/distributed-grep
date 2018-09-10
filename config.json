@@ -4,14 +4,16 @@
 		{
 			"id": "1",
 			"host": "test",
-			"ip": "127.0.1.1",
-			"logfile_name": "client.py"
+			"ip": "192.168.0.195",
+			"logfile_name": "machine.1.log",
+			"test_logfile_name": "machine.1.test.log"
 		},
 		{
 			"id": "2", 
 			"host": "test",
 			"ip": "10.193.204.192",
-			"logfile_name": "server.py"
+			"logfile_name": "server.py",
+			"test_logfile_name": "machine.1.test.log"
 		}
 	],
 	"port": "45000"
