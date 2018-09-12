@@ -17,7 +17,7 @@ class QueryThread(threading.Thread):
 	def run(self):
 		try:
 			sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-			sock.settimeout(2.0)   
+			sock.settimeout(1.0)   
 			sock.connect((self.host, int(self.port)))
 		except socket.error as e: #If connection to remote machine fails
 			print 'Could not connect to ' + str(self.host)
@@ -78,6 +78,9 @@ class Client(object):
 				if not self.is_test:
 					print line_output
 
+		if not self.is_test:
+			print '\nTotal lines matched:%s' % (output.count('\n'))
+		
 		return output
 
 def main():
