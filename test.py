@@ -54,9 +54,13 @@ class TestLogQuerier(unittest.TestCase):
 		else:
 			self.assertEqual(num_lines, 10 * (NUM_MACHINES/2 + 1))
 
-		for line in result[:-1].split('\n'):
-			self.assertNotIn('machine.2', line)
-			self.assertNotIn('machine.4', line)
+		#Check that no lines from even numbered machines have been matched, and lines from 
+		#all odd numbered machines are present
+		for machine_number in range(1, NUM_MACHINES + 1):
+			if machine_number % 2 == 0:
+				self.assertNotIn('machine.{}'.format(machine_number), result)
+			else:
+				self.assertIn('machine.{}'.format(machine_number), result)
 
 	def test_occur_in_all_logs(self):
 		result = Client('grep -n "^Machine number"', is_test = True).query()
