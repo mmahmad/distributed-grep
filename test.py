@@ -40,11 +40,12 @@ class TestLogQuerier(unittest.TestCase):
 		num_lines = result.count('\n')
 
 		self.assertEqual(num_lines, 1)
-		self.assertIn('machine.1', result)
-		self.assertNotIn('machine.2', result)
-		self.assertNotIn('machine.3', result)
 		self.assertIn('1-11111', result)
+		self.assertIn('machine.1', result)
 
+		for machine_number in range(2, NUM_MACHINES + 1):
+			self.assertNotIn('machine.{}'.format(machine_number), result)
+		
 	def test_occur_in_some_logs(self):
 		result = Client('grep -n "^Only in odd"', is_test = True).query()
 		num_lines = result.count('\n')
