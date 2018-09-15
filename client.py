@@ -20,14 +20,14 @@ class QueryThread(threading.Thread):
 			sock.settimeout(1.0)   
 			sock.connect((self.host, int(self.port)))
 		except socket.error as e: #If connection to remote machine fails
-			print 'Could not connect to ' + str(self.host)
+			#print 'Could not connect to ' + str(self.host)
 			return
 
 		try:
 			sock.sendall(self.command)
 
 			while True:
-				part = sock.recv(1024)
+				part = sock.recv(10240000)
 				if part:
 					self.result += part
 				else:
@@ -54,15 +54,16 @@ class Client(object):
 		output = ''
 
 		for server in self.servers:
-			host, ip = server['host'], server['ip']
+			host = server['host']
 
 			if self.is_test:
-				thread = QueryThread(self.command, ip, self.port, server['test_logfile_name'], self.queue)
+				thread = QueryThread(self.command, host, self.port, server['test_logfile_name'], self.queue)
 			else:
-				thread = QueryThread(self.command, ip, self.port, server['logfile_name'], self.queue)
+				thread = QueryThread(self.command, host, self.port, server['logfile_name'], self.queue)
 				
 			thread.start()
 			thread_list.append(thread)
+
 
 		for thread in thread_list:	
 			thread.join()
@@ -70,13 +71,19 @@ class Client(object):
 		while not self.queue.empty():
 			item = self.queue.get()
 			file_name, result = item.keys()[0], item.values()[0]
+			output += (result + '\n')
 
-			for line in result.split('\n'):
-				line_output = '%s:%s' % (file_name, line)
-				output += (line_output + '\n')
+			if not self.is_test:
+				print 'Machine number: ' + (file_name)
+				print result
+				print 'Number of lines matched: ' + str(result.count('\n') + 1)
+
+			# for line in result.split('\n'):
+			# 	line_output = '%s:%s' % (file_name, line)
+			# 	output += (line_output + '\n')
 				
-				if not self.is_test:
-					print line_output
+				# if not self.is_test:
+				# 	print line_output
 
 		if not self.is_test:
 			print '\nTotal lines matched:%s' % (output.count('\n'))

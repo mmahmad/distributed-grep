@@ -1,7 +1,7 @@
 import unittest
 from client import Client
 
-NUM_MACHINES = 1
+NUM_MACHINES = 10
 
 class TestLogQuerier(unittest.TestCase):
 
