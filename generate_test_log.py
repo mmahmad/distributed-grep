@@ -8,7 +8,7 @@ def generate_logs():
 
 	current_ip = get_process_hostname()
 	host = socket.gethostbyaddr(current_ip)[0]
-	server_id = [server['id'] for server in config_data['servers'] if server['host'] == host[0]
+	server_id = [server['id'] for server in config_data['servers'] if server['host'] == host][0]
 
 	patterns = []
 
