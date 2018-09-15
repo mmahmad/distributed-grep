@@ -1,13 +1,14 @@
 import json
 from server import get_process_hostname
-import random
+import random, socket
 
 def generate_logs():
 	with open('config.json') as config:
 		config_data = json.load(config)
 
 	current_ip = get_process_hostname()
-	server_id = [server['id'] for server in config_data['servers'] if server['ip'] == current_ip][0]
+	host = socket.gethostbyaddr(current_ip)[0]
+	server_id = [server['id'] for server in config_data['servers'] if server['host'] == host[0]
 
 	patterns = []
 

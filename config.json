@@ -3,17 +3,63 @@
 	[
 		{
 			"id": "1",
-			"host": "test",
-			"ip": "192.168.0.195",
-			"logfile_name": "machine.1.log",
+			"host": "fa18-cs425-g03-01.cs.illinois.edu",
+			"logfile_name": "vm1.log",
 			"test_logfile_name": "machine.1.test.log"
 		},
 		{
 			"id": "2", 
-			"host": "test",
-			"ip": "10.193.204.192",
-			"logfile_name": "server.py",
-			"test_logfile_name": "machine.1.test.log"
+			"host": "fa18-cs425-g03-02.cs.illinois.edu",
+			"logfile_name": "vm2.log",
+			"test_logfile_name": "machine.2.test.log"
+		},
+		{
+			"id": "3", 
+			"host": "fa18-cs425-g03-03.cs.illinois.edu",
+			"logfile_name": "vm3.log",
+			"test_logfile_name": "machine.3.test.log"
+		},
+		{
+			"id": "4", 
+			"host": "fa18-cs425-g03-04.cs.illinois.edu",
+			"logfile_name": "vm4.log",
+			"test_logfile_name": "machine.4.test.log"
+		},
+		{
+			"id": "5", 
+			"host": "fa18-cs425-g03-05.cs.illinois.edu",
+			"logfile_name": "vm5.log",
+			"test_logfile_name": "machine.5.test.log"
+		},
+		{
+			"id": "6", 
+			"host": "fa18-cs425-g03-06.cs.illinois.edu",
+			"logfile_name": "vm6.log",
+			"test_logfile_name": "machine.6.test.log"
+		},
+		{
+			"id": "7", 
+			"host": "fa18-cs425-g03-07.cs.illinois.edu",
+			"logfile_name": "vm7.log",
+			"test_logfile_name": "machine.7.test.log"
+		},
+		{
+			"id": "8", 
+			"host": "fa18-cs425-g03-08.cs.illinois.edu",
+			"logfile_name": "vm8.log",
+			"test_logfile_name": "machine.8.test.log"
+		},
+		{
+			"id": "9", 
+			"host": "fa18-cs425-g03-09.cs.illinois.edu",
+			"logfile_name": "vm9.log",
+			"test_logfile_name": "machine.9.test.log"
+		},
+		{
+			"id": "10", 
+			"host": "fa18-cs425-g03-10.cs.illinois.edu",
+			"logfile_name": "vm10.log",
+			"test_logfile_name": "machine.10.test.log"
 		}
 	],
 	"port": "45000"
