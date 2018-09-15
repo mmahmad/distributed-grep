@@ -16,7 +16,7 @@ def generate_logs():
 	#1. Only occuring in one log file
 	patterns.append(server_id + '-' + server_id * 5 + '\n')
 
-	#2. Occuring in some log files - only in log files with odd server_ids
+	#2. Occuring in some log files - only in log files with odd serv]r_ids
 	if int(server_id) % 2 == 1:
 		for i in range(10):
 			patterns.append('Only in odd numbered files - ' + str(i) + '\n')

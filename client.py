@@ -20,7 +20,7 @@ class QueryThread(threading.Thread):
 			sock.settimeout(1.0)   
 			sock.connect((self.host, int(self.port)))
 		except socket.error as e: #If connection to remote machine fails
-			#print 'Could not connect to ' + str(self.host)
+			print 'Could not connect to ' + str(self.host)
 			return
 
 		try:
@@ -77,13 +77,6 @@ class Client(object):
 				print 'Machine number: ' + (file_name)
 				print result
 				print 'Number of lines matched: ' + str(result.count('\n') + 1)
-
-			# for line in result.split('\n'):
-			# 	line_output = '%s:%s' % (file_name, line)
-			# 	output += (line_output + '\n')
-				
-				# if not self.is_test:
-				# 	print line_output
 
 		if not self.is_test:
 			print '\nTotal lines matched:%s' % (output.count('\n'))
