@@ -5,7 +5,7 @@ import time, numpy
 def generate_latency_plot():
 	
 	y_mean, y_std = [], []
-	patterns = ['abc', 'ab','99', 'a', '9']
+	patterns = ['ab', '99', '10', 'a']
 	x = [i for i in range(len(patterns))]
 
 	for pattern in patterns:
@@ -24,9 +24,11 @@ def generate_latency_plot():
 
 	plt.errorbar(x, y_mean, yerr = y_std, fmt='o', barsabove = True)
 	plt.xticks(x, patterns)
-	plt.xlabel('Grepped pattern')
-	plt.ylabel('Query latency')
-	plt.xlim(-2,3)
+	plt.xlabel('Grepped Pattern')
+	plt.ylabel('Query Latency (seconds)')
+	plt.xlim(-1,4)
+	plt.grid(True)
+	plt.title('Mean query latency for different patterns with standard deviation error bars')
 	plt.show()
 
 if __name__ == '__main__':

@@ -20,7 +20,7 @@ class QueryThread(threading.Thread):
 			sock.settimeout(1.0)   
 			sock.connect((self.host, int(self.port)))
 		except socket.error as e: #If connection to remote machine fails
-			print 'Could not connect to ' + str(self.host)
+			# print 'Could not connect to ' + str(self.host)
 			return
 
 		try:
@@ -68,24 +68,29 @@ class Client(object):
 		for thread in thread_list:	
 			thread.join()
 
+		lines_matched = []
+
 		while not self.queue.empty():
 			item = self.queue.get()
 			file_name, result = item.keys()[0], item.values()[0]
 			output += (result + '\n')
 
 			if not self.is_test:
-				print 'Machine number: ' + (file_name)
+				print 'File name: ' + (file_name)
 				print result
-				print 'Number of lines matched: ' + str(result.count('\n') + 1)
+				lines_matched.append('File name: ' + file_name + ', Number of lines: ' + str(result.count('\n') + 1))
 
+		print ''
 		if not self.is_test:
-			print '\nTotal lines matched:%s' % (output.count('\n'))
+			for line in lines_matched:
+				print line
+			print 'Total lines matched:%s' % (output.count('\n'))
 		
 		return output
 
 def main():
 	while True:
-		command = raw_input('Enter grep command...\n')
+		command = raw_input('\nEnter grep command...\n')
 		obj = Client(command, is_test = False)
 		obj.query()
 
