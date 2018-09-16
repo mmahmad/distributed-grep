@@ -20,7 +20,7 @@ class QueryThread(threading.Thread):
 			sock.settimeout(1.0)   
 			sock.connect((self.host, int(self.port)))
 		except socket.error as e: #If connection to remote machine fails
-			# print 'Could not connect to ' + str(self.host)
+			print 'Could not connect to ' + str(self.host)
 			return
 
 		try:
