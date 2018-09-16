@@ -32,7 +32,11 @@ def threaded(conn):
         return
 
     retData = retData[:-1] # to remove the final \n
-    conn.sendall(retData) # send all will break down text in small packets and then send all the packets
+
+    try:
+        conn.sendall(retData) # send all will break down text in small packets and then send all the packets
+    except socket.error as e:
+        print 'Error occured'
 
     conn.close() # close the connection
 
